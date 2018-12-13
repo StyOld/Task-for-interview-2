@@ -1,5 +1,6 @@
 import React from 'react';
 import ImageList from "./ImageList";
+import Header from "./Header";
 
 export default class App extends React.Component {
     constructor() {
@@ -45,19 +46,12 @@ export default class App extends React.Component {
     };
 
     render() {
-        const {images, refreshStatus}=this.state;
+        const {images}=this.state;
 
         return (
             <div className='container'>
-                <h1 className='top-color'>Top commented.</h1>
-                <button
-                    type='button'
-                    className='btn btn-sm'
-                    onClick={this.autoRefresh}
-                >
-                    Start auto-refresh
-                </button>
-                <ImageList images={images} refreshStatus={refreshStatus}/>
+                <Header autoRefresh={this.autoRefresh}/>
+                <ImageList images={images}/>
             </div>
         )
     }
