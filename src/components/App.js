@@ -11,7 +11,7 @@ export default class App extends React.Component {
     render() {
         return (
             <div className='container'>
-                <div>Top commended.</div>
+                <h1 className='top-color'>Top commented.</h1>
                 <ImageList/>
             </div>
         )

@@ -7,11 +7,14 @@ export default class ImageItem extends React.Component {
         return (
             <div className='card'>
                 <img
-                    className='card-img-top'
+                    className="card-img-top"
                     src={item.url}
                     alt=""/>
-                <strong><h5>{item.title}</h5></strong>
-                <a href={item.link}>Link</a>
+                <div className='card-body'>
+                    <b><h4>{item.title}</h4></b>
+                    <p>Number of contacts: {item.number_of_comments}</p>
+                    <a href={item.link}>Link</a>
+                </div>
             </div>
         )
     }
