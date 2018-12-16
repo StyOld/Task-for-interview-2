@@ -1,3 +1,4 @@
+import 'rc-slider/assets/index.css';
 import React from 'react';
 import ImageList from "./ImageList";
 import Header from "./Header";
@@ -6,14 +7,15 @@ export default class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            images: [],
+            imageList: [],
+            sliderValue:0,
             refreshStatus: false
         };
     };
 
     getImages = () => {
         this.setState({
-           images: []
+            imageList: []
         });
 
         const link='https://www.reddit.com/r/aww.json';
@@ -24,7 +26,7 @@ export default class App extends React.Component {
             })
             .then(result => {
                     this.setState({
-                        images: result.data.children
+                        imageList: result.data.children
                     })
                 }
             )
@@ -36,9 +38,14 @@ export default class App extends React.Component {
         ) : (clearInterval(this.timerID));
 
         this.setState(prevState => ({
-                refreshStatus: !prevState.refreshStatus
-            }
-        ))
+            refreshStatus: !prevState.refreshStatus
+        }))
+    };
+
+    onSliderChange = (value) => {
+        this.setState({
+            sliderValue: value
+        })
     };
 
     componentDidMount() {
@@ -46,12 +53,12 @@ export default class App extends React.Component {
     };
 
     render() {
-        const {images}=this.state;
+        const {imageList, sliderValue}=this.state;
 
         return (
             <div className='container'>
-                <Header autoRefresh={this.autoRefresh}/>
-                <ImageList images={images}/>
+                <Header autoRefresh={this.autoRefresh} onSliderChange={this.onSliderChange} sliderValue={sliderValue}/>
+                <ImageList imageList={imageList} sliderValue={sliderValue}/>
             </div>
         )
     }
