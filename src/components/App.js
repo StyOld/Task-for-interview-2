@@ -9,37 +9,44 @@ export default class App extends React.Component {
         this.state = {
             imageList: [],
             sliderValue:0,
-            refreshStatus: false
+            refreshStatus: false,
+            isLoading: false
         };
     };
 
     getImages = () => {
-        this.setState({
-            imageList: []
-        });
-
-        const link='https://www.reddit.com/r/aww.json';
-
-        fetch(link)
-            .then(response => {
-                return response.json();
-            })
-            .then(result => {
+        this.setState(({
+            isLoading: true
+        }), () => {
+            fetch('https://www.reddit.com/r/aww.json')
+                .then(response => {
+                    return response.json();
+                })
+                .then(result => {
                     this.setState({
-                        imageList: result.data.children
+                        imageList: result.data.children,
+                        isLoading: false
                     })
-                }
-            )
+                })
+        });
     };
 
     autoRefresh = () => {
-        !this.state.refreshStatus ? (
-            this.timerID = setInterval(this.getImages, 3000)
-        ) : (clearInterval(this.timerID));
-
         this.setState(prevState => ({
             refreshStatus: !prevState.refreshStatus
-        }))
+        }), () => {
+            this.state.refreshStatus ? (
+                this.timerID = setInterval(this.getImages, 3000)
+            ) : (clearInterval(this.timerID));
+        })
+
+        // !this.state.refreshStatus ? (
+        //     this.timerID = setInterval(this.getImages, 3000)
+        // ) : (clearInterval(this.timerID));
+        //
+        // this.setState(prevState => ({
+        //     refreshStatus: !prevState.refreshStatus
+        // }))
     };
 
     onSliderChange = (value) => {
@@ -53,12 +60,12 @@ export default class App extends React.Component {
     };
 
     render() {
-        const {imageList, sliderValue}=this.state;
+        const {imageList, sliderValue, isLoading}=this.state;
 
         return (
             <div className='container'>
                 <Header autoRefresh={this.autoRefresh} onSliderChange={this.onSliderChange} sliderValue={sliderValue}/>
-                <ImageList imageList={imageList} sliderValue={sliderValue}/>
+                {!isLoading ? (<ImageList imageList={imageList} sliderValue={sliderValue}/>) : (<h2><b>Loading...</b></h2>)}
             </div>
         )
     }
