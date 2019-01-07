@@ -39,14 +39,6 @@ export default class App extends React.Component {
                 this.timerID = setInterval(this.getImages, 3000)
             ) : (clearInterval(this.timerID));
         })
-
-        // !this.state.refreshStatus ? (
-        //     this.timerID = setInterval(this.getImages, 3000)
-        // ) : (clearInterval(this.timerID));
-        //
-        // this.setState(prevState => ({
-        //     refreshStatus: !prevState.refreshStatus
-        // }))
     };
 
     onSliderChange = (value) => {

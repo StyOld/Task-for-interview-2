@@ -15,7 +15,7 @@ export default class ImageList extends React.Component {
                         <ImageItem item={image}/>
                     </div>
                 ))}
-                </div>
+            </div>
         ) : (
             <h2><b>No results found matching your criteria</b></h2>
         )
